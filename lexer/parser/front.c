@@ -11,36 +11,23 @@
 #include <stdio.h>
 #include <ctype.h>
 
-/* Global declarations */
-/* Variables */
-int charClass;
-char lexeme [100];
-char nextChar;
-int lexLen;
+#include "front.h"
+#include "parser.h"
+
+/* Global Variable */
 int nextToken;
-FILE *in_fp;
 
-/* Function declarations */
-void addChar();
-void getChar();
-void getNonBlank();
-int lex();
+/* Local Variables */
+static int charClass;
+static char lexeme [100];
+static char nextChar;
+static int lexLen;
+static FILE *in_fp;
 
-/* Character classes */
-#define LETTER 0
-#define DIGIT 1
-#define UNKNOWN 99
-
-/* Token codes */
-#define INT_LIT 10
-#define IDENT 11
-#define ASSIGN_OP 20
-#define ADD_OP 21
-#define SUB_OP 22
-#define MULT_OP 23
-#define DIV_OP 24
-#define LEFT_PAREN 25
-#define RIGHT_PAREN 26
+/* Local Function declarations */
+static void addChar();
+static void getChar();
+static void getNonBlank();
 
 /******************************************************/
 /* main driver */
@@ -53,6 +40,7 @@ int main()
         getChar();
         do {
             lex();
+            expr();
         } while (nextToken != EOF);
     }
 
@@ -62,7 +50,7 @@ int main()
 /*****************************************************/
 /* lookup - a function to lookup operators and parentheses and return the 
  * token */
-int lookup(char ch) {
+static int lookup(char ch) {
     switch (ch) {
         case '(':
             addChar();
@@ -98,7 +86,7 @@ int lookup(char ch) {
 
 /*****************************************************/
 /* addChar - a function to add nextChar to lexeme */
-void addChar() {
+static void addChar() {
     if (lexLen <= 98) {
         lexeme[lexLen++] = nextChar;
         lexeme[lexLen] = 0;
@@ -110,7 +98,7 @@ void addChar() {
 /*****************************************************/
 /* getChar - a function to get the next character of input and determine its 
  * character class */
-void getChar() {
+static void getChar() {
     if ((nextChar = getc(in_fp)) != EOF) {
         if (isalpha(nextChar))
             charClass = LETTER;
@@ -125,7 +113,7 @@ void getChar() {
 /*****************************************************/
 /* getNonBlank - a function to call getChar until it returns a non-whitespace 
  * character */
-void getNonBlank() {
+static void getNonBlank() {
     while (isspace(nextChar)) getChar();
 }
 
