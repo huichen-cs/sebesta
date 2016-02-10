@@ -8,4 +8,4 @@ This repository contains a few example programs for the text book
 
 * lexer: lexical analyzer
  *  lex: the same lexical analyzer implemented using Lex
-* parser: recursive descrent parser
+* parser: recursive descent parser
