@@ -6,5 +6,5 @@ This repository contains a few example programs for the text book
 
 ## Directories
 
-*lexer: lexical analyzer
-*parser: recursive descrent parser
+* lexer: lexical analyzer
+* parser: recursive descrent parser
